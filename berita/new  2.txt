@@ -1,0 +1,32 @@
+<?php
+session_start();
+// ... jika belum login, alihkan ke halaman login
+
+include ('../koneksi.php');
+$judul = $_POST['JUDUL'];
+$deskripsi  = $_POST['ISI'];
+$gambar = $_FILES['GAMBAR']['name'];
+$tmp = $_FILES['GAMBAR']['tmp_name'];
+$tgl_post = $_POST['TANGGAL'];
+
+
+$path = "../images/".$gambar;
+
+if(move_uploaded_file($tmp, $path)){
+
+$query = "INSERT INTO berita VALUES ('".$judul."','".$deskripsi."','".$gambar."','".$tgl_post."')";
+$sql = mysqli_query($conec, $query);
+
+
+  if ($sql) {
+    header("location: data_berita.php");
+  } else {
+    echo"Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
+    echo"<br><a href='data_berita.php'>Kembali Ke Form</a>";
+  }
+  }else{
+  echo "Maaf, Gambar gagal untuk diupload.";
+  echo "<br><a href='data_brita.php'>Kembali Ke Fom</a>";
+  }
+  
+?>
